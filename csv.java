@@ -22,6 +22,7 @@ public class Main {
         departments.put("PT", "GRPM_HS Fulda_Pflege und Gesundheit_Physiotherapie");
         departments.put("PHN", "GRPM_HS Fulda_Pflege und Gesundheit_Public Health Nutrition");
         departments.put("IHS", "GRPM_HS Fulda_Pflege und Gesundheit_International Health Sciences");
+        departments.put("IGW", "GRPM_HS Fulda_Pflege und Gesundheit_International Health Sciences");
         departments.put("BBG", "GRPM_HS Fulda_Pflege und Gesundheit_Berufspädagogik Fach Gesundheit");
     }
 
@@ -63,7 +64,7 @@ public class Main {
         }
         w.append(sb.toString());
 
-        System.out.println("Total users exported: " + (newUsers.size()>1 ? newUsers.size() : 0));
+        System.out.println("Total users exported: " + (newUsers.size() - 1));
     }
 
     public static void setLine(StringBuilder sb, List<String> line, boolean firstLine) {
@@ -103,7 +104,7 @@ public class Main {
             String key = getKey(line);
             oldUsers.put(key, line);
         }
-        System.out.println("Total old users: " + oldUsers.size());
+        System.out.println("Total old users: " + (oldUsers.size()-1));
         scanner.close();
 
         return oldUsers;
@@ -120,17 +121,17 @@ public class Main {
             List<String> line = parseLine(scanner.nextLine());
             String key = getKey(line);
 
-            //if same user does not exist in old list
             if(firstLine) {
                 newUsers.add(line);
             } else if(!firstLine && oldUsers.get(key) == null) {
+                //if same user does not exist in old list
                 newUsers.add(line);
             }
 
             firstLine = false;
         }
         scanner.close();
-        System.out.println("Total new users: " + newUsers.size());
+        System.out.println("Total filtered users: " + (newUsers.size()-1));
 
         return newUsers;
     }
