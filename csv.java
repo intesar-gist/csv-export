@@ -71,6 +71,7 @@ public class Main {
         boolean firstElem = true;
         //creating a line
         for(String data : line) {
+            data = data.trim();
             sb.append((firstElem && !firstLine) ? departments.get(data) : data).append(DEFAULT_SEPARATOR);
             firstElem = false;
         }
@@ -85,7 +86,7 @@ public class Main {
                 String department = line.get(0);
                 String email = line.get(line.size()-1);
 
-                key = department+";"+email;
+                key = department.trim()+";"+email.trim();
             }
         } catch (Exception ex) {
             System.out.println(line.toString());
@@ -93,6 +94,19 @@ public class Main {
         }
 
         return key;
+    }
+
+    public static  Map<String, List<String>> verifyFile(String csvPath) throws Exception {
+        Map<String, List<String>> oldUsers = new HashMap<>();
+
+        Scanner scanner = new Scanner(new File(csvPath));
+        if (scanner.hasNext()) {
+            List<String> line = parseLine(scanner.nextLine());
+            String key = getKey(line);
+            oldUsers.put(key, line);
+        }
+
+        return oldUsers;
     }
 
     public static  Map<String, List<String>> readOldUsers(String oldCsv) throws Exception {
